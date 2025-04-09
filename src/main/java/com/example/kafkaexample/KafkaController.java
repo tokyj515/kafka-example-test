@@ -17,14 +17,19 @@ public class KafkaController {
 
     @PostMapping("/send")
     public ResponseEntity<String> sendMessage(@RequestBody ProducerExampleRequest request) {
-        // type 헤더를 명시적으로 추가
+        System.out.println("📦 요청 수신됨: " + request);
+
         Message<ProducerExampleRequest> message = MessageBuilder
                 .withPayload(request)
                 .setHeader(KafkaHeaders.TOPIC, "test-topic")
-                .setHeader("type", "test-message") // 👈 요게 핵심!
+                .setHeader("type", "test-message")
                 .build();
 
         kafkaTemplate.send(message);
+
+        System.out.println("📤 Kafka 메시지 전송 완료");
+
         return ResponseEntity.ok("✅ Sent!");
     }
+
 }

@@ -1,0 +1,47 @@
+replicaCount: 1
+
+controller:
+  enabled: false  # 꼭 꺼줘야 KRaft 모드 OFF됨
+
+kraft:
+  enabled: false
+
+auth:
+  enabled: false
+
+zookeeper:
+  enabled: true
+  replicaCount: 1
+  auth:
+    enabled: false
+
+externalZookeeper:
+  enabled: false
+
+service:
+  type: ClusterIP
+  ports:
+    client: 9092
+
+externalAccess:
+  enabled: true
+  service:
+    type: NodePort
+    nodePorts:
+      - 32000
+  autoDiscovery:
+    enabled: false
+  useHostIPs: true
+
+configurationOverrides:
+  listener.security.protocol.map: PLAINTEXT:PLAINTEXT
+  listeners: PLAINTEXT://:9092
+  advertised.listeners: PLAINTEXT://localhost:32000
+  inter.broker.listener.name: PLAINTEXT
+
+
+#configurationOverrides:
+#  listener.security.protocol.map: PLAINTEXT:PLAINTEXT
+#  listeners: PLAINTEXT://:9092
+#  advertised.listeners: PLAINTEXT://my-kafka.default.svc.cluster.local:9092
+#  inter.broker.listener.name: PLAINTEXT
