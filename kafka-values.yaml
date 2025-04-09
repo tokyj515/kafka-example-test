@@ -1,11 +1,9 @@
 replicaCount: 1
 
 controller:
-  enabled: false  # 꼭 꺼줘야 KRaft 모드 OFF됨
-
+  enabled: false
 kraft:
   enabled: false
-
 auth:
   enabled: false
 
@@ -29,6 +27,8 @@ externalAccess:
     type: NodePort
     nodePorts:
       - 32000
+    externalIPs:
+      - 192.168.5.15
   autoDiscovery:
     enabled: false
   broker:
@@ -38,7 +38,9 @@ externalAccess:
 configurationOverrides:
   listener.security.protocol.map: INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
   listeners: INTERNAL://:9093,CLIENT://:9092,EXTERNAL://:9094
-  advertised.listeners: INTERNAL://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9093,CLIENT://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9092,EXTERNAL://localhost:32000
+  advertised.listeners: |
+    INTERNAL://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9093,
+    CLIENT://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9092,
+    EXTERNAL://192.168.5.15:32000
   inter.broker.listener.name: INTERNAL
   listener.name.external.plaintext.host: 0.0.0.0
-
