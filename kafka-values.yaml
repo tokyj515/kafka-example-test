@@ -31,13 +31,16 @@ externalAccess:
       - 32000
   autoDiscovery:
     enabled: false
-  useHostIPs: true
+  broker:
+    advertisedListeners:
+      - PLAINTEXT://192.168.5.15:32000
 
 configurationOverrides:
-  listener.security.protocol.map: PLAINTEXT:PLAINTEXT
-  listeners: PLAINTEXT://:9092
-  advertised.listeners: PLAINTEXT://localhost:32000
-  inter.broker.listener.name: PLAINTEXT
+  listener.security.protocol.map: INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+  listeners: INTERNAL://:9093,CLIENT://:9092,EXTERNAL://:9094
+  advertised.listeners: INTERNAL://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9093,CLIENT://my-kafka-0.my-kafka-headless.default.svc.cluster.local:9092,EXTERNAL://localhost:32000
+  inter.broker.listener.name: INTERNAL
+  listener.name.external.plaintext.host: 0.0.0.0
 
 
 #configurationOverrides:

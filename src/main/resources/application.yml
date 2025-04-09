@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: 192.168.5.15:32000   # ??(?????) internel ip : ??? ??
+    bootstrap-servers: localhost:32000   # ??(?????) internel ip : ??? ??
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
