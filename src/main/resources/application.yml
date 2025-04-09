@@ -1,12 +1,23 @@
 spring:
   kafka:
-    bootstrap-servers: kafka-0.kafka-headless.kafka.svc.cluster.local:9092
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json:
+          trusted.packages: "*"
+          type.mapping: |
+            test-message:com.example.kafkaexample.ProducerExampleRequest
+
     consumer:
       group-id: test-group
       auto-offset-reset: earliest
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json:
+          trusted.packages: "*"
+          type.mapping: |
+            test-message:com.example.kafkaexample.ProducerExampleRequest

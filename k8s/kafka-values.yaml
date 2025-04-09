@@ -1,0 +1,29 @@
+replicaCount: 3
+
+zookeeper:
+  enabled: true
+  replicaCount: 3
+
+kraft:
+  enabled: false  # KRaft 끄기
+
+externalAccess:
+  enabled: false
+
+listeners:
+  client:
+    protocol: PLAINTEXT
+    port: 9092
+
+advertisedListeners:
+  client:
+    host: 127.0.0.1  # 포트포워딩 환경에서는 localhost로 광고
+    port: 9092
+
+extraEnvVars:
+  - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+    value: CLIENT:PLAINTEXT
+  - name: KAFKA_CFG_LISTENERS
+    value: CLIENT://:9092
+  - name: KAFKA_CFG_ADVERTISED_LISTENERS
+    value: CLIENT://127.0.0.1:9092
